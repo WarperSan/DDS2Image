@@ -38,7 +38,7 @@ class Converter {
          * 
          * @param data Data representing the pixels
          */
-        virtual void processPixels(std::vector<uint32_t>* data);
+        virtual void processPixels(std::vector<uint32_t>* data) = 0;
 
     public:
         /**
