@@ -56,6 +56,8 @@ Result Converter::process()
     const Header header = processHeader();
     std::vector<uint32_t> buffer(header.width * header.height);
 
+    processPixels(&buffer);
+
     Result result;
 
     result.width = header.width;
