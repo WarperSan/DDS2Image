@@ -1,0 +1,82 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger only on tags starting with 'v', e.g. v1.0.0
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    outputs:
+      artifact-name: dds2image-${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install build tools (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Build on Linux/macOS
+      if: runner.os != 'Windows'
+      run: |
+        g++ src/main.cpp -o dds2image
+
+    - name: Build on Windows
+      if: runner.os == 'Windows'
+      run: g++ src\main.cpp -o dds2image.exe
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: dds2image-${{ matrix.os }}
+        path: |
+          dds2image
+          dds2image.exe
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download Linux artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: dds2image-ubuntu-latest
+        path: ./artifacts
+
+    - name: Download macOS artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: dds2image-macos-latest
+        path: ./artifacts
+
+    - name: Download Windows artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: dds2image-windows-latest
+        path: ./artifacts
+
+    - name: Prepare binaries for release
+      run: |
+        ls -l ./artifacts
+        chmod +x ./artifacts/dds2image
+        mv ./artifacts/dds2image ./dds2image-linux
+        mv ./artifacts/dds2image ./dds2image-macos || true
+        mv ./artifacts/dds2image.exe ./dds2image-windows.exe
+
+    - name: Create GitHub Release and upload assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dds2image-linux
+          dds2image-macos
+          dds2image-windows.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
