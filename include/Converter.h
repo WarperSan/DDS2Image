@@ -1,3 +1,5 @@
+#pragma once
+
 #include "BinaryReader.h"
 #include <vector>
 #include <cstdint>
@@ -33,20 +35,7 @@ struct Result {
 class Converter {
     private:
         BinaryReader reader;
-
-        /**
-         * @brief Prcesses the standard DDS header
-         * 
-         * @return Header Metadata found
-         */
-        Header processHeader();
-
-        /**
-         * @brief Processes the standard DDS pixel format
-         * 
-         * @return PixelFormat Metadata found
-         */
-        PixelFormat processPixelFormat();
+        Header header;
 
     protected:
         /**
@@ -61,8 +50,9 @@ class Converter {
          * @brief Construct a new Converter object
          * 
          * @param r Reader to read the data from
+         * @param h Metadata loaded from the data
          */
-        Converter(BinaryReader& r) : reader(r) {}
+        Converter(BinaryReader& r, const Header& h) : reader(r), header(h) {}
 
         /**
          * @brief Porcesses the loaded data
