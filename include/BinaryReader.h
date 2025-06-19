@@ -1,0 +1,54 @@
+#pragma once
+
+#include <string>
+#include <vector>
+
+class BinaryReader {
+    private:
+        const std::vector<uint8_t>& buffer;
+        size_t position;
+
+        /**
+         * @brief Checks if the reader can read the amount of bytes requested
+         * 
+         * @param bytes Amount of bytes to read
+         */
+        void canRead(size_t bytes);
+
+    public:
+        /**
+         * @brief Advances the current position by the given amount of bytes
+         * 
+         * @param bytes Amount of bytes to advance by
+         */
+        void advance(size_t bytes);
+
+        /**
+         * @brief Construct a new Binary Reader object
+         * 
+         * @param buf Raw data to read from
+         */
+        BinaryReader(const std::vector<uint8_t>& buf);
+
+        /**
+         * @brief Reads a string with the given length
+         * 
+         * @param length Length of the string to read
+         * @return std::string String read
+         */
+        std::string readFixedString(size_t length);
+
+        /**
+         * @brief Reads an unsigned integer
+         * 
+         * @return uint32_t Number read
+         */
+        uint32_t readUInt();
+
+        /**
+         * @brief Reads a signed integer
+         * 
+         * @return int32_t Number read
+         */
+        int32_t readInt();
+};
