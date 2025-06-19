@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "g++",
       "args": [
-        "src/main.cpp",
+        "src/*.cpp",
         "-o",
         "build/dds2image"
       ],
