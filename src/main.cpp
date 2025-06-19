@@ -1,16 +1,50 @@
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "../include/stb_image_write.h"
+
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <memory>
 
-int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        std::cout << "Usage: dds2png <input.dds> <output.png>\n";
-        return 1;
-    }
+#include "../include/BinaryReader.h"
+#include "../include/Converter.h"
+#include "../include/Factory.h"
 
-    const char* inputFile = argv[1];
-    const char* outputFile = argv[2];
+std::vector<uint8_t> readFromFile(std::string file)
+{
+    std::ifstream steam(file, std::ios::binary | std::ios::ate);
 
-    // TODO: Your DDS-to-PNG conversion logic
+    if (!steam)
+        throw std::runtime_error("Failed to open file.");
 
-    std::cout << "Converted " << inputFile << " to " << outputFile << "\n";
+    std::streamsize size = steam.tellg();
+    steam.seekg(0, std::ios::beg);
+
+    std::vector<uint8_t> buffer(size);
+
+    if (!steam.read(reinterpret_cast<char *>(buffer.data()), size))
+        throw std::runtime_error("Failed to read file.");
+
+    return buffer;
+}
+
+Result convertBuffer(std::vector<uint8_t> buffer)
+{
+    std::unique_ptr<Converter> converter = Factory::create(buffer);
+
+    return converter.get()->process();
+}
+
+int main(int argc, char *argv[])
+{
+    // Read file to buffer
+    std::vector<uint8_t> buffer = readFromFile("test.dds");
+
+    // Convert buffer
+    const Result result = convertBuffer(buffer);
+
+    // Output
+    stbi_write_png("output.png", result.width, result.height, 4, result.data.data(), result.width);
+
     return 0;
 }
