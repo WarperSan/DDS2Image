@@ -54,7 +54,7 @@ Result Converter::process()
         throw std::runtime_error("Invalid file type.");
 
     const Header header = processHeader();
-    std::vector<uint32_t> buffer(header.width * header.height * 4);
+    std::vector<uint32_t> buffer(header.width * header.height);
 
     Result result;
 
