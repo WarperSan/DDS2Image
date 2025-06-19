@@ -17,18 +17,18 @@ class BinaryReader {
 
     public:
         /**
-         * @brief Advances the current position by the given amount of bytes
-         * 
-         * @param bytes Amount of bytes to advance by
-         */
-        void advance(size_t bytes);
-
-        /**
          * @brief Construct a new Binary Reader object
          * 
          * @param buf Raw data to read from
          */
         BinaryReader(const std::vector<uint8_t>& buf);
+
+        /**
+         * @brief Advances the current position by the given amount of bytes
+         * 
+         * @param bytes Amount of bytes to advance by
+         */
+        void advance(size_t bytes);
 
         /**
          * @brief Reads a string with the given length
