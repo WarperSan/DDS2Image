@@ -4,6 +4,12 @@
 #include <vector>
 #include <cstdint>
 
+#define PACK_RGBA(r, g, b, a)           \
+    ((static_cast<uint32_t>(std::round(r)) << 24) | \
+     (static_cast<uint32_t>(std::round(g)) << 16) | \
+     (static_cast<uint32_t>(std::round(b)) << 8) |  \
+     (static_cast<uint32_t>(std::round(a))))
+
 struct PixelFormat {
     uint32_t flags;
     std::string fourCC;
