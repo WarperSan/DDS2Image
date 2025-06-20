@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief Wrapper to handle binary arrays
+ */
 class BinaryReader {
     private:
         const std::vector<uint8_t>& buffer;
