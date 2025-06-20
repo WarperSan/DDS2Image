@@ -1,7 +1,6 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../include/stb_image_write.h"
 
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <memory>
@@ -58,14 +57,17 @@ void savePNG(const std::string &filename, const std::vector<uint32_t> &rgbaPixel
 
 int main(int argc, char *argv[])
 {
+    const std::string input = argv[1];
+    const std::string output = argv[2];
+
     // Read file to buffer
-    std::vector<uint8_t> buffer = readFromFile("test.dds");
+    std::vector<uint8_t> buffer = readFromFile(input);
 
     // Convert buffer
     const Result result = convertBuffer(buffer);
 
     // Output
-    savePNG("output.png", result.data, result.width, result.height);
+    savePNG(output, result.data, result.width, result.height);
 
     return 0;
 }
