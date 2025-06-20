@@ -1,6 +1,7 @@
 #include "../include/Factory.h"
 #include "../include/BinaryReader.h"
 #include "../include/Converter.h"
+#include "../include/Converters/ATCIConverter.h"
 #include <stdexcept>
 
 #define MAGIC_NUMBER "DDS "
@@ -60,8 +61,8 @@ std::unique_ptr<Converter> Factory::create(const std::vector<uint8_t>& buffer)
     const Header header = processHeader(reader);
     const std::string fourCC = header.pixelFormat.fourCC;
 
-    //if (fourCC == "ATCI")
-    //    return std::make_unique<DummyConverter>(reader, header);
+    if (fourCC == "ATCI")
+        return std::make_unique<ATCIConverter>(reader, header);
 
     throw std::runtime_error("Unsupported format.");
 }
