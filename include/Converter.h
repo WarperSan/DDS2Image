@@ -33,11 +33,10 @@ struct Result {
 };
 
 class Converter {
-    private:
-        BinaryReader reader;
-        Header header;
-
     protected:
+        BinaryReader reader;
+        const Header header;
+
         /**
          * @brief Processes the data representing the pixels
          * 
