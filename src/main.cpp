@@ -35,6 +35,27 @@ Result convertBuffer(std::vector<uint8_t> buffer)
     return converter.get()->process();
 }
 
+void savePNG(const std::string &filename, const std::vector<uint32_t> &rgbaPixels, int width, int height)
+{
+    std::vector<uint8_t> data;
+    data.reserve(width * height * 4);
+
+    for (uint32_t pixel : rgbaPixels)
+    {
+        uint8_t r = (pixel >> 24) & 0xFF;
+        uint8_t g = (pixel >> 16) & 0xFF;
+        uint8_t b = (pixel >> 8) & 0xFF;
+        uint8_t a = pixel & 0xFF;
+
+        data.push_back(r);
+        data.push_back(g);
+        data.push_back(b);
+        data.push_back(a);
+    }
+
+    stbi_write_png(filename.c_str(), width, height, 4, data.data(), width * 4);
+}
+
 int main(int argc, char *argv[])
 {
     // Read file to buffer
@@ -44,7 +65,7 @@ int main(int argc, char *argv[])
     const Result result = convertBuffer(buffer);
 
     // Output
-    stbi_write_png("output.png", result.width, result.height, 4, result.data.data(), result.width);
+    savePNG("output.png", result.data, result.width, result.height);
 
     return 0;
 }
