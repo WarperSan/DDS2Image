@@ -1,6 +1,7 @@
 #include "../include/Factory.h"
 #include "../include/BinaryReader.h"
 #include "../include/Converter.h"
+#include "../include/Converters/ATCAConverter.h"
 #include "../include/Converters/ATCIConverter.h"
 #include <stdexcept>
 
@@ -63,6 +64,9 @@ std::unique_ptr<Converter> Factory::create(const std::vector<uint8_t>& buffer)
 
     if (fourCC == "ATCI")
         return std::make_unique<ATCIConverter>(reader, header);
+
+    if (fourCC == "ATCA")
+        return std::make_unique<ATCAConverter>(reader, header);
 
     throw std::runtime_error("Unsupported format.");
 }
