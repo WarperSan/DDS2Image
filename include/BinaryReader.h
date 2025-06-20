@@ -42,16 +42,30 @@ class BinaryReader {
         std::string readFixedString(size_t length);
 
         /**
-         * @brief Reads an unsigned integer
+         * @brief Reads an unsigned 16 bits number
+         * 
+         * @return uint16_t Number read
+         */
+        uint16_t readUShort();
+
+        /**
+         * @brief Reads an unsigned 32 bits number
          * 
          * @return uint32_t Number read
          */
         uint32_t readUInt();
 
         /**
-         * @brief Reads a signed integer
+         * @brief Reads a signed 32 bits number
          * 
          * @return int32_t Number read
          */
         int32_t readInt();
+
+        /**
+         * @brief Reads an unsigned 64 bits number
+         * 
+         * @return uint64_t Number read
+         */
+        uint64_t readULong();
 };
