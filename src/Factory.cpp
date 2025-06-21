@@ -52,7 +52,7 @@ PixelFormat Factory::processPixelFormat(BinaryReader &reader)
     return pixelFormat;
 }
 
-std::unique_ptr<Converter> Factory::create(const std::vector<uint8_t>& buffer)
+std::unique_ptr<Converter> Factory::create(const std::vector<uint8_t> &buffer)
 {
     BinaryReader reader(buffer);
 
