@@ -1,12 +1,12 @@
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "../include/Helpers/stb_image_write.h"
-
 #include <fstream>
 #include <vector>
 #include <memory>
 
 #include "../include/Converters/Converter.h"
 #include "../include/Converters/ConverterFactory.h"
+
+#include "../include/Encoders/Encoder.h"
+#include "../include/Encoders/PNGEncoder.h"
 
 std::vector<uint8_t> readFromFile(std::string file)
 {
@@ -59,6 +59,10 @@ int main(int argc, char *argv[])
     std::unique_ptr<Converter> converter = ConverterFactory::create(buffer);
     const Result result = converter.get()->process();
 
+    PNGEncoder encoder = PNGEncoder(result.data, result.width, result.height);
+    encoder.process("output.png");
+
+    return 0;
     // Output
     savePNG(output, result.data, result.width, result.height);
 
