@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 
-#include "../include/BinaryReader.h"
 #include "../include/Converters/Converter.h"
 #include "../include/Converters/ConverterFactory.h"
 
