@@ -26,13 +26,6 @@ std::vector<uint8_t> readFromFile(std::string file)
     return buffer;
 }
 
-Result convertBuffer(std::vector<uint8_t> buffer)
-{
-    std::unique_ptr<Converter> converter = ConverterFactory::create(buffer);
-
-    return converter.get()->process();
-}
-
 void savePNG(const std::string &filename, const std::vector<uint32_t> &rgbaPixels, int width, int height)
 {
     std::vector<uint8_t> data;
@@ -63,7 +56,8 @@ int main(int argc, char *argv[])
     std::vector<uint8_t> buffer = readFromFile(input);
 
     // Convert buffer
-    const Result result = convertBuffer(buffer);
+    std::unique_ptr<Converter> converter = ConverterFactory::create(buffer);
+    const Result result = converter.get()->process();
 
     // Output
     savePNG(output, result.data, result.width, result.height);

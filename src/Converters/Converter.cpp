@@ -1,6 +1,6 @@
 #include "../../include/Converters/Converter.h"
 
-Result Converter::process()
+const Result Converter::process()
 {
     std::vector<uint32_t> buffer(header.width * header.height);
 

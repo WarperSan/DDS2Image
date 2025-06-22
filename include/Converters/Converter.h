@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BinaryReader.h"
+#include "../Helpers/BinaryReader.h"
 #include <vector>
 #include <cstdint>
 
@@ -68,5 +68,5 @@ public:
      *
      * @return Result Raw information for an image
      */
-    Result process();
+    const Result process();
 };
