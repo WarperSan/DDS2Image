@@ -1,4 +1,4 @@
-#include "../../include/Converters/Factory.h"
+#include "../../include/Converters/ConverterFactory.h"
 #include "../include/BinaryReader.h"
 #include "../../include/Converters/Converter.h"
 #include "../../include/Converters/ATCAConverter.h"
@@ -9,7 +9,7 @@
 #define HEADER_SIZE 124
 #define PIXEL_FORMAT_SIZE 32
 
-Header Factory::processHeader(BinaryReader &reader)
+Header ConverterFactory::processHeader(BinaryReader &reader)
 {
     if (reader.readUInt() != HEADER_SIZE)
         throw std::runtime_error("Invalid header size.");
@@ -34,7 +34,7 @@ Header Factory::processHeader(BinaryReader &reader)
     return header;
 }
 
-PixelFormat Factory::processPixelFormat(BinaryReader &reader)
+PixelFormat ConverterFactory::processPixelFormat(BinaryReader &reader)
 {
     if (reader.readUInt() != PIXEL_FORMAT_SIZE)
         throw std::runtime_error("Invalid pixel format size.");
@@ -52,7 +52,7 @@ PixelFormat Factory::processPixelFormat(BinaryReader &reader)
     return pixelFormat;
 }
 
-std::unique_ptr<Converter> Factory::create(const std::vector<uint8_t> &buffer)
+std::unique_ptr<Converter> ConverterFactory::create(const std::vector<uint8_t> &buffer)
 {
     BinaryReader reader(buffer);
 

@@ -2,7 +2,7 @@
 #include "Converter.h"
 #include <memory>
 
-class Factory
+class ConverterFactory
 {
 private:
     /**

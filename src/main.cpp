@@ -7,7 +7,7 @@
 
 #include "../include/BinaryReader.h"
 #include "../include/Converters/Converter.h"
-#include "../include/Converters/Factory.h"
+#include "../include/Converters/ConverterFactory.h"
 
 std::vector<uint8_t> readFromFile(std::string file)
 {
@@ -29,7 +29,7 @@ std::vector<uint8_t> readFromFile(std::string file)
 
 Result convertBuffer(std::vector<uint8_t> buffer)
 {
-    std::unique_ptr<Converter> converter = Factory::create(buffer);
+    std::unique_ptr<Converter> converter = ConverterFactory::create(buffer);
 
     return converter.get()->process();
 }
