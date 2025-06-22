@@ -1,4 +1,4 @@
-#include "../Converter.h"
+#include "Converter.h"
 #include <cmath>
 
 #define BLOCK_SIZE 4

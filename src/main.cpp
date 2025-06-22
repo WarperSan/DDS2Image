@@ -1,13 +1,13 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "../include/stb_image_write.h"
+#include "../include/Helpers/stb_image_write.h"
 
 #include <fstream>
 #include <vector>
 #include <memory>
 
 #include "../include/BinaryReader.h"
-#include "../include/Converter.h"
-#include "../include/Factory.h"
+#include "../include/Converters/Converter.h"
+#include "../include/Converters/Factory.h"
 
 std::vector<uint8_t> readFromFile(std::string file)
 {

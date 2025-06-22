@@ -1,8 +1,8 @@
-#include "../include/Factory.h"
+#include "../../include/Converters/Factory.h"
 #include "../include/BinaryReader.h"
-#include "../include/Converter.h"
-#include "../include/Converters/ATCAConverter.h"
-#include "../include/Converters/ATCIConverter.h"
+#include "../../include/Converters/Converter.h"
+#include "../../include/Converters/ATCAConverter.h"
+#include "../../include/Converters/ATCIConverter.h"
 #include <stdexcept>
 
 #define MAGIC_NUMBER "DDS "
