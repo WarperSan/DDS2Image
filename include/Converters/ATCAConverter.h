@@ -8,7 +8,7 @@
 class ATCAConverter : public Converter
 {
 protected:
-    void processPixels(std::vector<uint32_t> *data) override
+    void convert(std::vector<uint32_t> *data) override
     {
         uint32_t colorTable[4];
 

@@ -4,7 +4,7 @@ const Result Converter::process()
 {
     std::vector<uint32_t> buffer(header.width * header.height);
 
-    processPixels(&buffer);
+    convert(&buffer);
 
     Result result;
 

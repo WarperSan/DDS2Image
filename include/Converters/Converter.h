@@ -48,11 +48,11 @@ protected:
     const Header header;
 
     /**
-     * @brief Processes the data representing the pixels
+     * @brief Converts the raw data representing the pixels into a standard form
      *
      * @param data Data representing the pixels
      */
-    virtual void processPixels(std::vector<uint32_t> *data) = 0;
+    virtual void convert(std::vector<uint32_t> *data) = 0;
 
 public:
     /**
@@ -64,7 +64,7 @@ public:
     Converter(BinaryReader &r, const Header &h) : reader(r), header(h) {}
 
     /**
-     * @brief Porcesses the loaded data
+     * @brief Processes the loaded data
      *
      * @return Result Raw information for an image
      */
