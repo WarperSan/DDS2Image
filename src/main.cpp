@@ -8,20 +8,20 @@
 #include "../include/Encoders/Encoder.h"
 #include "../include/Encoders/PNGEncoder.h"
 
-std::vector<uint8_t> readFromFile(std::string file)
+std::vector<uint8_t> readFromFile(const std::string &file)
 {
-    std::ifstream steam(file, std::ios::binary | std::ios::ate);
+    std::ifstream stream(file, std::ios::binary | std::ios::ate);
 
-    if (!steam)
-        throw std::runtime_error("Failed to open file.");
+    if (!stream)
+        throw std::runtime_error("Failed to open file: " + file);
 
-    std::streamsize size = steam.tellg();
-    steam.seekg(0, std::ios::beg);
+    std::streamsize size = stream.tellg();
+    stream.seekg(0, std::ios::beg);
 
     std::vector<uint8_t> buffer(size);
 
-    if (!steam.read(reinterpret_cast<char *>(buffer.data()), size))
-        throw std::runtime_error("Failed to read file.");
+    if (!stream.read(reinterpret_cast<char *>(buffer.data()), size))
+        throw std::runtime_error("Failed to read file: " + file);
 
     return buffer;
 }
