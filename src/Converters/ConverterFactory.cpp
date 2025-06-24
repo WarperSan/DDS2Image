@@ -60,7 +60,7 @@ std::unique_ptr<Converter> ConverterFactory::create(const std::vector<uint8_t> &
         throw std::runtime_error("Invalid file type.");
 
     const Header header = processHeader(reader);
-    const std::string fourCC = header.pixelFormat.fourCC;
+    const std::string &fourCC = header.pixelFormat.fourCC;
 
     if (fourCC == "ATCI")
         return std::make_unique<ATCIConverter>(reader, header);
@@ -68,5 +68,5 @@ std::unique_ptr<Converter> ConverterFactory::create(const std::vector<uint8_t> &
     if (fourCC == "ATCA")
         return std::make_unique<ATCAConverter>(reader, header);
 
-    throw std::runtime_error("Unsupported format.");
+    throw std::runtime_error("Unsupported format: " + fourCC);
 }
