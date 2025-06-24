@@ -11,23 +11,23 @@
 
 Header ConverterFactory::processHeader(BinaryReader &reader)
 {
-    if (reader.readUInt() != HEADER_SIZE)
+    if (reader.read<uint32_t>() != HEADER_SIZE)
         throw std::runtime_error("Invalid header size.");
 
     Header header;
 
-    header.flags = reader.readInt();
-    header.height = reader.readUInt();
-    header.width = reader.readUInt();
-    header.pitcOrLinsize = reader.readUInt();
-    header.depth = reader.readUInt();
-    header.mipMapCount = reader.readUInt();
+    header.flags = reader.read<int32_t>();
+    header.height = reader.read<uint32_t>();
+    header.width = reader.read<uint32_t>();
+    header.pitcOrLinsize = reader.read<uint32_t>();
+    header.depth = reader.read<uint32_t>();
+    header.mipMapCount = reader.read<uint32_t>();
 
     reader.advance(44);
 
     header.pixelFormat = processPixelFormat(reader);
-    header.surfaceComplexity = reader.readInt();
-    header.additionalSurfaceDetails = reader.readInt();
+    header.surfaceComplexity = reader.read<int32_t>();
+    header.additionalSurfaceDetails = reader.read<int32_t>();
 
     reader.advance(12);
 
@@ -36,18 +36,18 @@ Header ConverterFactory::processHeader(BinaryReader &reader)
 
 PixelFormat ConverterFactory::processPixelFormat(BinaryReader &reader)
 {
-    if (reader.readUInt() != PIXEL_FORMAT_SIZE)
+    if (reader.read<uint32_t>() != PIXEL_FORMAT_SIZE)
         throw std::runtime_error("Invalid pixel format size.");
 
     PixelFormat pixelFormat;
 
-    pixelFormat.flags = reader.readUInt();
+    pixelFormat.flags = reader.read<uint32_t>();
     pixelFormat.fourCC = reader.readFixedString(4);
-    pixelFormat.bpp = reader.readUInt();
-    pixelFormat.redMask = reader.readUInt();
-    pixelFormat.greenMask = reader.readUInt();
-    pixelFormat.blueMask = reader.readUInt();
-    pixelFormat.alphaMask = reader.readUInt();
+    pixelFormat.bpp = reader.read<uint32_t>();
+    pixelFormat.redMask = reader.read<uint32_t>();
+    pixelFormat.greenMask = reader.read<uint32_t>();
+    pixelFormat.blueMask = reader.read<uint32_t>();
+    pixelFormat.alphaMask = reader.read<uint32_t>();
 
     return pixelFormat;
 }

@@ -19,11 +19,11 @@ protected:
         {
             for (uint32_t x = 0; x < width; x += BLOCK_SIZE)
             {
-                const uint64_t alphaBits = reader.readULong();
+                const uint64_t alphaBits = reader.read<uint64_t>();
 
-                const uint16_t c0 = reader.readUShort();
-                const uint16_t c1 = reader.readUShort();
-                const uint32_t colorIndices = reader.readUInt();
+                const uint16_t c0 = reader.read<uint16_t>();
+                const uint16_t c1 = reader.read<uint16_t>();
+                const uint32_t colorIndices = reader.read<uint32_t>();
 
                 const float c0b = (c0 & 31) * SCALE_5;
                 const float c0g = ((c0 >> 5) & 31) * SCALE_5;

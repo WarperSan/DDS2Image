@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <cstring>
 
 /**
  * @brief Wrapper to handle binary arrays
@@ -19,15 +20,6 @@ private:
      */
     void canRead(size_t bytes);
 
-    /**
-     * @brief Reads the given value
-     *
-     * @tparam T Type of the value to read
-     * @return T Value read
-     */
-    template <typename T>
-    T read();
-
 public:
     /**
      * @brief Construct a new Binary Reader object
@@ -44,38 +36,31 @@ public:
     void advance(size_t bytes);
 
     /**
+     * @brief Reads the given value
+     *
+     * @tparam T Type of the value to read
+     * @return T Value read
+     */
+    template <typename T>
+    T read()
+    {
+        static_assert(std::is_integral_v<T>, "read() supports integral types only");
+
+        canRead(sizeof(T));
+
+        T value = 0;
+        memcpy(&value, &buffer[position], sizeof(T));
+
+        advance(sizeof(T));
+
+        return value;
+    }
+
+    /**
      * @brief Reads a string with the given length
      *
      * @param length Length of the string to read
      * @return std::string String read
      */
     std::string readFixedString(size_t length);
-
-    /**
-     * @brief Reads an unsigned 16 bits number
-     *
-     * @return uint16_t Number read
-     */
-    uint16_t readUShort();
-
-    /**
-     * @brief Reads an unsigned 32 bits number
-     *
-     * @return uint32_t Number read
-     */
-    uint32_t readUInt();
-
-    /**
-     * @brief Reads a signed 32 bits number
-     *
-     * @return int32_t Number read
-     */
-    int32_t readInt();
-
-    /**
-     * @brief Reads an unsigned 64 bits number
-     *
-     * @return uint64_t Number read
-     */
-    uint64_t readULong();
 };
