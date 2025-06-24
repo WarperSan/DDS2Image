@@ -57,9 +57,9 @@ int main(int argc, char *argv[])
 
     // Convert buffer
     std::unique_ptr<Converter> converter = ConverterFactory::create(buffer);
-    const Result result = converter.get()->process();
+    const Image image = converter.get()->process();
 
-    PNGEncoder encoder = PNGEncoder(result.data, result.width, result.height);
+    PNGEncoder encoder = PNGEncoder(image.data, image.width, image.height);
     encoder.process("output.png");
 
     return 0;

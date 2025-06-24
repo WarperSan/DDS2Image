@@ -1,16 +1,16 @@
 #include "../../include/Converters/Converter.h"
 
-const Result Converter::process()
+const Image Converter::process()
 {
     std::vector<uint32_t> buffer(header.width * header.height);
 
     convert(&buffer);
 
-    Result result;
+    Image image;
 
-    result.width = header.width;
-    result.height = header.height;
-    result.data = buffer;
+    image.width = header.width;
+    image.height = header.height;
+    image.data = buffer;
 
-    return result;
+    return image;
 }

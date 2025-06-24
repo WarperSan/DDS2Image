@@ -34,7 +34,7 @@ struct Header
     int32_t additionalSurfaceDetails;
 };
 
-struct Result
+struct Image
 {
     uint32_t width;
     uint32_t height;
@@ -66,7 +66,7 @@ public:
     /**
      * @brief Processes the loaded data
      *
-     * @return Result Raw information for an image
+     * @return Image Raw information for an image
      */
-    const Result process();
+    const Image process();
 };
