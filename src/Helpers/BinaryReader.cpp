@@ -1,6 +1,7 @@
 #include "../../include/Helpers/BinaryReader.h"
 #include <vector>
 #include <stdexcept>
+#include <cstring>
 
 void BinaryReader::canRead(size_t bytes)
 {
@@ -8,6 +9,21 @@ void BinaryReader::canRead(size_t bytes)
         return;
 
     throw std::runtime_error("Out of bounds read at position " + std::to_string(position) + ", requested bytes: " + std::to_string(bytes) + ", buffer size: " + std::to_string(buffer.size()));
+}
+
+template <typename T>
+inline T BinaryReader::read()
+{
+    static_assert(std::is_integral_v<T>, "read() supports integral types only");
+
+    canRead(sizeof(T));
+
+    T value = 0;
+    std::memcpy(&value, &buffer[position], sizeof(T));
+
+    advance(sizeof(T));
+
+    return value;
 }
 
 void BinaryReader::advance(size_t bytes)
@@ -27,29 +43,20 @@ std::string BinaryReader::readFixedString(size_t length)
 
 uint16_t BinaryReader::readUShort()
 {
-    canRead(2);
-    uint16_t value = static_cast<uint16_t>(buffer[position]) | static_cast<uint16_t>(buffer[position + 1]) << 8;
-    advance(2);
-    return value;
+    return read<uint16_t>();
 }
 
 uint32_t BinaryReader::readUInt()
 {
-    canRead(4);
-    uint32_t value = static_cast<uint32_t>(buffer[position]) | static_cast<uint32_t>(buffer[position + 1]) << 8 | static_cast<uint32_t>(buffer[position + 2]) << 16 | static_cast<uint32_t>(buffer[position + 3]) << 24;
-    advance(4);
-    return value;
+    return read<uint32_t>();
 }
 
 int32_t BinaryReader::readInt()
 {
-    return static_cast<int32_t>(readUInt());
+    return read<int32_t>();
 }
 
 uint64_t BinaryReader::readULong()
 {
-    canRead(8);
-    uint64_t value = static_cast<uint64_t>(buffer[position]) | static_cast<uint64_t>(buffer[position + 1]) << 8 | static_cast<uint64_t>(buffer[position + 2]) << 16 | static_cast<uint64_t>(buffer[position + 3]) << 24 | static_cast<uint64_t>(buffer[position + 4]) << 32 | static_cast<uint64_t>(buffer[position + 5]) << 40 | static_cast<uint64_t>(buffer[position + 6]) << 48 | static_cast<uint64_t>(buffer[position + 7]) << 56;
-    advance(8);
-    return value;
+    return read<uint64_t>();
 }

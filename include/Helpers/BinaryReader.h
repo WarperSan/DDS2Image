@@ -19,6 +19,15 @@ private:
      */
     void canRead(size_t bytes);
 
+    /**
+     * @brief Reads the given value
+     *
+     * @tparam T Type of the value to read
+     * @return T Value read
+     */
+    template <typename T>
+    T read();
+
 public:
     /**
      * @brief Construct a new Binary Reader object
