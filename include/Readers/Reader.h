@@ -45,6 +45,11 @@ class Reader {
      * @return Result Raw information for an image
      */
     virtual Image process() = 0;
+
+    /**
+     * Reads the binary data from the given file
+     */
+    static std::vector<uint8_t> fromFile(std::string_view file);
 };
 
 
