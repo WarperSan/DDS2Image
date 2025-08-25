@@ -1,19 +1,15 @@
-#pragma once
+#ifndef DDS2IMAGE_BINARYREADER_H
+#define DDS2IMAGE_BINARYREADER_H
 
-#include <bit>
 #include <cstring>
-#include <fstream>
 #include <memory>
 #include <span>
 #include <string>
-#include <string_view>
-#include <vector>
 
 /**
  * @brief Wrapper to handle binary arrays
  */
 class BinaryReader {
-    private:
     std::span<const uint8_t> buffer;
     size_t position;
 
@@ -22,7 +18,7 @@ class BinaryReader {
      *
      * @param bytes Amount of bytes to read
      */
-    void canRead(size_t bytes);
+    void canRead(size_t bytes) const;
 
     public:
     /**
@@ -30,7 +26,7 @@ class BinaryReader {
      *
      * @param buf Raw data to read from
      */
-    BinaryReader(std::span<const uint8_t> buf);
+    explicit BinaryReader(std::span<const uint8_t> buf);
 
     /**
      * @brief Advances the current position by the given amount of bytes
@@ -62,7 +58,10 @@ class BinaryReader {
      * @brief Reads a string with the given length
      *
      * @param length Length of the string to read
-     * @return std::string String read
+     * @return std::string read
      */
     std::string readFixedString(size_t length);
 };
+
+
+#endif // DDS2IMAGE_BINARYREADER_H

@@ -1,18 +1,20 @@
-#include "Converter.h"
-#include <cmath>
+#ifndef DDS2IMAGE_ATCIREADER_H
+#define DDS2IMAGE_ATCIREADER_H
+
+#include "DDSReader.h"
 
 #define BLOCK_SIZE 4
-#define SCALE_5 255.f / 31.f
-#define SCALE_6 255.f / 63.f
+#define SCALE_5 (255.f / 31.f)
+#define SCALE_6 (255.f / 63.f)
 
-class ATCIConverter : public Converter {
+class ATCIReader : public DDSReader {
     protected:
-    void processPixels(std::span<uint32_t> data) override {
+    void convert(std::span<uint32_t> data) override {
         const uint32_t height = header.height;
         const uint32_t width  = header.width;
 
-        const size_t maxY         = ((size_t(height) - 1) / BLOCK_SIZE) * BLOCK_SIZE;
-        const size_t maxX         = ((size_t(width) - 1) / BLOCK_SIZE) * BLOCK_SIZE;
+        const size_t maxY         = (static_cast<size_t>(height) - 1) / BLOCK_SIZE * BLOCK_SIZE;
+        const size_t maxX         = (static_cast<size_t>(width) - 1) / BLOCK_SIZE * BLOCK_SIZE;
         const size_t maxDestIndex = (maxY + (BLOCK_SIZE - 1)) * width + (maxX + (BLOCK_SIZE - 1));
 
         if (data.size() <= maxDestIndex)
@@ -23,10 +25,10 @@ class ATCIConverter : public Converter {
 
         for (uint32_t y = 0; y < height; y += BLOCK_SIZE) {
             for (uint32_t x = 0; x < width; x += BLOCK_SIZE) {
-                const uint64_t alphaBits = reader.readULong();
+                const auto alphaBits     = reader.read<uint64_t>();
                 const uint8_t startAlpha = alphaBits & 0xFF;
-                const uint8_t endAlpha   = (alphaBits >> 8) & 0xFF;
-                const uint64_t alphaMask = (alphaBits >> 16) & 0xFFFFFFFFFFFF;
+                const uint8_t endAlpha   = alphaBits >> 8 & 0xFF;
+                const uint64_t alphaMask = alphaBits >> 16 & 0xFFFFFFFFFFFF;
 
                 alphaTable[0] = startAlpha;
                 alphaTable[1] = endAlpha;
@@ -47,17 +49,17 @@ class ATCIConverter : public Converter {
                     alphaTable[7] = 255;
                 }
 
-                const uint16_t c0           = reader.readUShort();
-                const uint16_t c1           = reader.readUShort();
-                const uint32_t colorIndices = reader.readUInt();
+                const auto c0           = reader.read<uint16_t>();
+                const auto c1           = reader.read<uint16_t>();
+                const auto colorIndices = reader.read<uint32_t>();
 
                 const float c0b = (c0 & 31) * SCALE_5;
-                const float c0g = ((c0 >> 5) & 31) * SCALE_5;
-                const float c0r = ((c0 >> 10) & 31) * SCALE_5;
+                const float c0g = (c0 >> 5 & 31) * SCALE_5;
+                const float c0r = (c0 >> 10 & 31) * SCALE_5;
 
                 const float c1b = (c1 & 31) * SCALE_5;
-                const float c1g = ((c1 >> 5) & 63) * SCALE_6;
-                const float c1r = ((c1 >> 11) & 31) * SCALE_5;
+                const float c1g = (c1 >> 5 & 63) * SCALE_6;
+                const float c1r = (c1 >> 11 & 31) * SCALE_5;
 
                 colorTable[0] = PACK_RGBA(c0r, c0g, c0b, 0);
                 colorTable[1] = PACK_RGBA((2.f * c0r + c1r) / 3.f, (2.f * c0g + c1g) / 3.f, (2.f * c0b + c1b) / 3.f, 0);
@@ -68,11 +70,11 @@ class ATCIConverter : public Converter {
                     for (uint32_t bX = 0; bX < BLOCK_SIZE && x + bX < width; ++bX) {
                         const uint32_t index = bY * BLOCK_SIZE + bX;
 
-                        const uint32_t colorIndex = (colorIndices >> (index * 2)) & 0x3;
-                        const uint64_t alphaIndex = (alphaMask >> (index * 3)) & 0x7;
+                        const uint32_t colorIndex = colorIndices >> (index * 2) & 0x3;
+                        const uint64_t alphaIndex = alphaMask >> (index * 3) & 0x7;
 
                         const uint32_t destIndex = (y + bY) * width + (x + bX);
-                        data[destIndex]          = setPixelRGBA(colorTable[colorIndex] & 0xFFFFFF00 | alphaTable[alphaIndex]);
+                        data[destIndex]          = colorTable[colorIndex] & 0xFFFFFF00 | alphaTable[alphaIndex];
                     }
                 }
             }
@@ -80,6 +82,8 @@ class ATCIConverter : public Converter {
     }
 
     public:
-    ATCIConverter(BinaryReader& r, const Header& h) : Converter(r, h) {
+    ATCIReader(const BinaryReader& r, const Header& h) : DDSReader(r, h) {
     }
 };
+
+#endif // DDS2IMAGE_ATCIREADER_H

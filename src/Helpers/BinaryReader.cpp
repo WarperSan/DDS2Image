@@ -1,8 +1,7 @@
 #include "../../include/Helpers/BinaryReader.h"
 #include <stdexcept>
-#include <vector>
 
-void BinaryReader::canRead(size_t bytes) {
+void BinaryReader::canRead(const size_t bytes) const {
     if (position + bytes <= buffer.size())
         return;
 
@@ -10,14 +9,14 @@ void BinaryReader::canRead(size_t bytes) {
     ", buffer size: " + std::to_string(buffer.size()));
 }
 
-void BinaryReader::advance(size_t bytes) {
+void BinaryReader::advance(const size_t bytes) {
     position += bytes;
 }
 
-BinaryReader::BinaryReader(const std::vector<uint8_t>& buf) : buffer(buf), position(0) {
+BinaryReader::BinaryReader(const std::span<const uint8_t> buf) : buffer(buf), position(0) {
 }
 
-std::string BinaryReader::readFixedString(size_t length) {
+std::string BinaryReader::readFixedString(const size_t length) {
     canRead(length);
     std::string str(reinterpret_cast<const char*>(&buffer[position]), length);
     advance(length);
