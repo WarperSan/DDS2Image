@@ -20,12 +20,9 @@ public:
     /**
      * @brief Construct a new Encoder object
      *
-     * @param filename Name of the output file
-     * @param pixels Pixels to encode
-     * @param width Width of the image
-     * @param height Height of the image
+     * @param Image Image to encode
      */
-    Encoder(const std::vector<uint32_t> &pixels, int width, int height) : pixels(pixels), width(width), height(height) {}
+    Encoder(const Image &image) : pixels(image.data), width(image.width), height(image.height) {}
 
     /**
      * @brief Processes the loaded pixels

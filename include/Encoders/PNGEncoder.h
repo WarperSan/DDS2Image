@@ -28,5 +28,5 @@ protected:
     }
 
 public:
-    PNGEncoder(const std::vector<uint32_t> &pixels, int width, int height) : Encoder(pixels, width, height) {}
+    PNGEncoder(const Image &image) : Encoder(image) {}
 };

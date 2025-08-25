@@ -9,7 +9,15 @@
         "src/**/*.cpp",
         "src/main.cpp",
         "-o",
-        "build/dds2image"
+        "build/dds2image",
+        "-lapngasm",
+        "-lpng",
+        "-lz",
+        "-lboost_program_options",
+        "-lboost_regex",
+        "-lboost_system",
+        "-lboost_filesystem",
+        "-Wl,-rpath,/usr/local/lib"
       ],
       "group": {
         "kind": "build",
