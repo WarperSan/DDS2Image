@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <fstream>
 #include <vector>
 #include <memory>
@@ -19,15 +20,44 @@ std::vector<uint8_t> readFromFile(const std::string &file)
 
     std::streamsize size = stream.tellg();
     stream.seekg(0, std::ios::beg);
+=======
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "../include/BinaryReader.h"
+#include "../include/Converter.h"
+#include "../include/Factory.h"
+#include "../include/stb_image_write.h"
+#include <array>
+#include <bit>
+#include <fstream>
+#include <memory>
+#include <span>
+#include <string_view>
+#include <vector>
 
-    std::vector<uint8_t> buffer(size);
+std::vector<uint8_t> readFromFile(std::string_view file) {
+  std::ifstream steam(file.data(), std::ios::binary | std::ios::ate);
 
+  if (!steam)
+    throw std::runtime_error("Failed to open file.");
+
+  std::streamsize size = steam.tellg();
+  steam.seekg(0, std::ios::beg);
+>>>>>>> pr-42
+
+  std::vector<uint8_t> buffer(size);
+
+<<<<<<< HEAD
     if (!stream.read(reinterpret_cast<char *>(buffer.data()), size))
         throw std::runtime_error("Failed to read file: " + file);
+=======
+  if (!steam.read(reinterpret_cast<char *>(buffer.data()), size))
+    throw std::runtime_error("Failed to read file.");
+>>>>>>> pr-42
 
-    return buffer;
+  return buffer;
 }
 
+<<<<<<< HEAD
 int main(int argc, char *argv[])
 {
     const std::string input = argv[1];
@@ -110,6 +140,32 @@ int main(int argc, char *argv[])
 
     std::cout << "Encoding to APNG..." << std::endl;
     AnimatedPNGEncoder(image, frames, 326, 298).process("output-animated.png");
+=======
+Result convertBuffer(std::span<const uint8_t> buffer) {
+  std::unique_ptr<Converter> converter = Factory::create(buffer);
 
-    return 0;
+  return converter.get()->process();
+}
+
+void savePNG(std::string_view filename, std::span<uint32_t> rgbaPixels,
+             int width, int height) {
+  stbi_write_png(filename.data(), width, height, 4,
+                 reinterpret_cast<uint8_t *>(rgbaPixels.data()), width * 4);
+}
+
+int main(int argc, char *argv[]) {
+  std::string_view input = argv[1];
+  std::string_view output = argv[2];
+
+  // Read file to buffer
+  std::vector<uint8_t> buffer = readFromFile(input);
+
+  // Convert buffer
+  Result result = convertBuffer(buffer);
+
+  // Output
+  savePNG(output, result.data, result.width, result.height);
+>>>>>>> pr-42
+
+  return 0;
 }
