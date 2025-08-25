@@ -8,5 +8,5 @@ dds2image <input.dds> <output.*>
 
 ## Build
 ```bash
-g++ src/main.cpp -o build/dds2image
+ g++ -O2 -std=c++2a src/main.cpp src/Converter.cpp src/BinaryReader.cpp src/Factory.cpp  -flto  -o build/dds2image
 ```

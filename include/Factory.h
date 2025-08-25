@@ -25,5 +25,5 @@ public:
      *
      * @return std::unique_ptr<Converter> Pointer to the converter
      */
-    static std::unique_ptr<Converter> create(const std::vector<uint8_t> &buffer);
+    static std::unique_ptr<Converter> create( std::span<const uint8_t> buffer);
 };

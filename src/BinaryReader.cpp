@@ -15,7 +15,8 @@ void BinaryReader::advance(size_t bytes)
     position += bytes;
 }
 
-BinaryReader::BinaryReader(const std::vector<uint8_t> &buf) : buffer(buf), position(0) {}
+BinaryReader::BinaryReader(
+     std::span<const uint8_t>buf) : buffer(buf), position(0) {}
 
 std::string BinaryReader::readFixedString(size_t length)
 {

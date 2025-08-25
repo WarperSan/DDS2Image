@@ -3,13 +3,18 @@
 #include <string>
 #include <vector>
 
+#include <bit>
+#include <fstream>
+#include <memory>
+#include <span>
+#include <string_view>
 /**
  * @brief Wrapper to handle binary arrays
  */
 class BinaryReader
 {
 private:
-    const std::vector<uint8_t> &buffer;
+     std::span<const uint8_t> buffer;
     size_t position;
 
     /**
@@ -25,7 +30,8 @@ public:
      *
      * @param buf Raw data to read from
      */
-    BinaryReader(const std::vector<uint8_t> &buf);
+    BinaryReader(
+     std::span<const uint8_t>buf);
 
     /**
      * @brief Advances the current position by the given amount of bytes
