@@ -4,7 +4,7 @@
 #include "../../include/Readers/DDS/DDSReader.h"
 
 std::unique_ptr<Reader> Factory::create(const std::span<const uint8_t> buffer) {
-    BinaryReader r(buffer);
+    BinaryStream r(buffer);
 
     std::string fourCC = r.readFixedString(4);
 

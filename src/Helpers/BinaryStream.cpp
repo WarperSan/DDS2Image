@@ -1,7 +1,7 @@
-#include "../../include/Helpers/BinaryReader.h"
+#include "../../include/Helpers/BinaryStream.h"
 #include <stdexcept>
 
-void BinaryReader::canRead(const size_t bytes) const {
+void BinaryStream::canRead(const size_t bytes) const {
     if (position + bytes <= buffer.size())
         return;
 
@@ -9,14 +9,14 @@ void BinaryReader::canRead(const size_t bytes) const {
     ", buffer size: " + std::to_string(buffer.size()));
 }
 
-void BinaryReader::advance(const size_t bytes) {
+void BinaryStream::advance(const size_t bytes) {
     position += bytes;
 }
 
-BinaryReader::BinaryReader(const std::span<const uint8_t> buf) : buffer(buf), position(0) {
+BinaryStream::BinaryStream(const std::span<const uint8_t> buf) : buffer(buf), position(0) {
 }
 
-std::string BinaryReader::readFixedString(const size_t length) {
+std::string BinaryStream::readFixedString(const size_t length) {
     canRead(length);
     std::string str(reinterpret_cast<const char*>(&buffer[position]), length);
     advance(length);

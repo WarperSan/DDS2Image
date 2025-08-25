@@ -82,7 +82,7 @@ class ATCIReader : public DDSReader {
     }
 
     public:
-    ATCIReader(const BinaryReader& r, const Header& h) : DDSReader(r, h) {
+    ATCIReader(const BinaryStream& r, const Header& h) : DDSReader(r, h) {
     }
 };
 

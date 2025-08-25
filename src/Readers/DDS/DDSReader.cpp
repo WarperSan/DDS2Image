@@ -4,7 +4,7 @@
 #define HEADER_SIZE 124
 #define PIXEL_FORMAT_SIZE 32
 
-PixelFormat DDSReader::processPixelFormat(BinaryReader& reader) {
+PixelFormat DDSReader::processPixelFormat(BinaryStream& reader) {
     if (reader.read<uint32_t>() != PIXEL_FORMAT_SIZE)
         throw std::runtime_error("Invalid pixel format size.");
 
@@ -21,7 +21,7 @@ PixelFormat DDSReader::processPixelFormat(BinaryReader& reader) {
     return pixelFormat;
 }
 
-Header DDSReader::processHeader(BinaryReader& reader) {
+Header DDSReader::processHeader(BinaryStream& reader) {
     if (reader.read<uint32_t>() != HEADER_SIZE)
         throw std::runtime_error("Invalid header size.");
 
@@ -59,5 +59,5 @@ Image DDSReader::process() {
     return image;
 }
 
-DDSReader::DDSReader(const BinaryReader& r, Header h) : Reader(r), header(std::move(h)) {
+DDSReader::DDSReader(const BinaryStream& r, Header h) : Reader(r), header(std::move(h)) {
 }

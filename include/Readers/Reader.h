@@ -1,7 +1,7 @@
 #ifndef DDS2IMAGE_READER_H
 #define DDS2IMAGE_READER_H
 
-#include "../Helpers/BinaryReader.h"
+#include "../Helpers/BinaryStream.h"
 #include <cmath>
 #include <vector>
 
@@ -20,7 +20,7 @@ struct Image {
 
 class Reader {
     protected:
-    BinaryReader reader;
+    BinaryStream reader;
 
     /**
      * @brief Processes the data representing the pixels
@@ -37,7 +37,7 @@ class Reader {
      *
      * @param r Reader to read the data from
      */
-    explicit Reader(const BinaryReader& r);
+    explicit Reader(const BinaryStream& r);
 
     /**
      * @brief Processes the loaded data

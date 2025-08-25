@@ -1,5 +1,5 @@
-#ifndef DDS2IMAGE_BINARYREADER_H
-#define DDS2IMAGE_BINARYREADER_H
+#ifndef DDS2IMAGE_BINARYSTREAM_H
+#define DDS2IMAGE_BINARYSTREAM_H
 
 #include <cstring>
 #include <memory>
@@ -9,7 +9,7 @@
 /**
  * @brief Wrapper to handle binary arrays
  */
-class BinaryReader {
+class BinaryStream {
     std::span<const uint8_t> buffer;
     size_t position;
 
@@ -26,7 +26,7 @@ class BinaryReader {
      *
      * @param buf Raw data to read from
      */
-    explicit BinaryReader(std::span<const uint8_t> buf);
+    explicit BinaryStream(std::span<const uint8_t> buf);
 
     /**
      * @brief Advances the current position by the given amount of bytes
@@ -64,4 +64,4 @@ class BinaryReader {
 };
 
 
-#endif // DDS2IMAGE_BINARYREADER_H
+#endif // DDS2IMAGE_BINARYSTREAM_H

@@ -30,17 +30,17 @@ class DDSReader : public Reader {
     Header header;
 
     public:
-    explicit DDSReader(const BinaryReader& r, Header h);
+    explicit DDSReader(const BinaryStream& r, Header h);
 
     /**
      * Reads the pixel format from the given reader
      */
-    static PixelFormat processPixelFormat(BinaryReader& reader);
+    static PixelFormat processPixelFormat(BinaryStream& reader);
 
     /**
      * Reads the header from the given reader
      */
-    static Header processHeader(BinaryReader& reader);
+    static Header processHeader(BinaryStream& reader);
 
     Image process() override;
 };
