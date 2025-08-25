@@ -56,6 +56,12 @@ protected:
    */
   virtual void processPixels(std::span<uint32_t> data) = 0;
 
+  /**
+   * @brief Processes the data representing the pixels
+   *
+   * @param pixel the pixel value
+   * @return   the byte output in the order that stbi_write_png expects
+   */
   inline static  uint32_t setPixelRGBA(uint32_t pixel) {
     uint8_t r = (pixel >> 24) & 0xFF;
     uint8_t g = (pixel >> 16) & 0xFF;

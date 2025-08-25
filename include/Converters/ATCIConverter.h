@@ -13,6 +13,13 @@ protected:
 
     const uint32_t height = header.height;
     const uint32_t width = header.width;
+    
+    const uint32_t maxY = ((height - 1) / BLOCK_SIZE)*BLOCK_SIZE;
+    const uint32_t maxX = ((width  - 1) / BLOCK_SIZE)*BLOCK_SIZE;
+    const uint32_t maxDestIndex =
+        (maxY + (BLOCK_SIZE - 1)) * width + (maxX + (BLOCK_SIZE - 1));
+    if (data.size() <= maxDestIndex)
+      throw std::out_of_range{"processPixels buffer was too small"};
 
     for (uint32_t y = 0; y < height; y += BLOCK_SIZE) {
       for (uint32_t x = 0; x < width; x += BLOCK_SIZE) {
@@ -69,8 +76,6 @@ protected:
             const uint64_t alphaIndex = (alphaMask >> (index * 3)) & 0x7;
 
             const uint32_t destIndex = (y + bY) * width + (x + bX);
-            if (data.size() <= destIndex)
-              throw std::out_of_range{"processPixels buffer was too small"};
             data[destIndex] = setPixelRGBA(colorTable[colorIndex] & 0xFFFFFF00 |
                                            alphaTable[alphaIndex]);
           }
