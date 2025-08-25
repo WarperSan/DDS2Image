@@ -13,9 +13,9 @@ protected:
     const uint32_t height = header.height;
     const uint32_t width = header.width;
 
-    const uint32_t maxY = ((height - 1) / BLOCK_SIZE)*BLOCK_SIZE;
-    const uint32_t maxX = ((width  - 1) / BLOCK_SIZE)*BLOCK_SIZE;
-    const uint32_t maxDestIndex =
+    const size_t maxY = ((size_t(height) - 1) / BLOCK_SIZE)*BLOCK_SIZE;
+    const size_t maxX = ((size_t(width)  - 1) / BLOCK_SIZE)*BLOCK_SIZE;
+    const size_t maxDestIndex =
         (maxY + (BLOCK_SIZE - 1)) * width + (maxX + (BLOCK_SIZE - 1));
     if (data.size() <= maxDestIndex)
       throw std::out_of_range{"processPixels buffer was too small"};
