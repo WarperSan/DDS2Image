@@ -1,4 +1,4 @@
-#include "../../../include/Readers/DDS/DDSReader.h"
+#include "Readers/DDS/DDSReader.h"
 #include <utility>
 
 #define HEADER_SIZE 124

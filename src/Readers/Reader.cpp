@@ -1,7 +1,7 @@
-#include "../../include/Readers/Reader.h"
-#include "../../include/Readers/DDS/ATCAReader.h"
-#include "../../include/Readers/DDS/ATCIReader.h"
-#include "../../include/Readers/DDS/DDSReader.h"
+#include "Readers/Reader.h"
+#include "Readers/DDS/ATCAReader.h"
+#include "Readers/DDS/ATCIReader.h"
+#include "Readers/DDS/DDSReader.h"
 #include <fstream>
 
 Reader::Reader(const BinaryStream& r) : reader(r) {

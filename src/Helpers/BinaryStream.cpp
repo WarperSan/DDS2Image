@@ -1,4 +1,4 @@
-#include "../../include/Helpers/BinaryStream.h"
+#include "Helpers/BinaryStream.h"
 #include <stdexcept>
 
 void BinaryStream::canRead(const size_t bytes) const {
