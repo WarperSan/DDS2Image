@@ -13,23 +13,23 @@ Writer::Writer(Image i) : image(std::move(i)) {
 
 void Writer::toFile(const std::string_view& fileName, const std::vector<uint8_t>& data) {
     if (data.size() > static_cast<size_t>(std::numeric_limits<std::streamsize>::max()))
-        throw std::runtime_error("Buffer too large to write to stream");
+        throw std::runtime_error("Buffer too large to write to stream.");
 
     std::ofstream out(std::string(fileName), std::ios::binary);
 
     if (!out)
-        throw std::runtime_error("Failed to open file for writing.");
+        throw std::runtime_error("Failed to open file.");
 
     const auto size = static_cast<std::streamsize>(data.size());
     out.write(reinterpret_cast<const char*>(data.data()), size);
 
     if (!out)
-        throw std::runtime_error("Failed to write data to file.");
+        throw std::runtime_error("Failed to write file.");
 }
 
 std::unique_ptr<Writer> Writer::create(const std::string_view fileType, const Image& image) {
     if (fileType == ".png")
         return std::make_unique<PNGWriter>(image);
 
-    throw std::runtime_error("Unsupported format: " + std::string(fileType));
+    throw std::runtime_error("No writer supported for this format: " + std::string(fileType));
 }

@@ -23,7 +23,7 @@ std::vector<uint8_t> Reader::fromFile(const std::string_view file) {
 
     return buffer;
 }
-std::unique_ptr<Reader> Reader::create(std::span<const uint8_t> buffer) {
+std::unique_ptr<Reader> Reader::create(const std::span<const uint8_t> buffer) {
     BinaryStream r(buffer);
 
     std::string fourCC = r.readFixedString(4);
@@ -39,8 +39,8 @@ std::unique_ptr<Reader> Reader::create(std::span<const uint8_t> buffer) {
         if (fourCC == "ATCI")
             return std::make_unique<ATCIReader>(r, header);
 
-        throw std::runtime_error("Unsupported DDS format: " + fourCC);
+        throw std::invalid_argument("No DDS reader is supported for this format: " + fourCC);
     }
 
-    throw std::runtime_error("Unsupported format: " + fourCC);
+    throw std::invalid_argument("No reader is supported for this format: " + fourCC);
 }

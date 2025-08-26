@@ -5,8 +5,7 @@ void BinaryStream::canRead(const size_t bytes) const {
     if (position + bytes <= buffer.size())
         return;
 
-    throw std::runtime_error("Out of bounds read at position " + std::to_string(position) + ", requested bytes: " + std::to_string(bytes) +
-    ", buffer size: " + std::to_string(buffer.size()));
+    throw std::out_of_range("Tried to read bytes outside of the buffer size.");
 }
 
 void BinaryStream::advance(const size_t bytes) {

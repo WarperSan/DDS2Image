@@ -19,7 +19,7 @@ class ATCAReader : public DDSReader {
         const size_t maxDestIndex = (maxY + (BLOCK_SIZE - 1)) * width + (maxX + (BLOCK_SIZE - 1));
 
         if (data.size() <= maxDestIndex)
-            throw std::out_of_range{ "processPixels buffer was too small" };
+            throw std::out_of_range{ "Reserved buffer is too small." };
 
         uint32_t colorTable[4]{};
 
