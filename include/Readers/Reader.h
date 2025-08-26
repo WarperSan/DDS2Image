@@ -31,20 +31,19 @@ class Reader {
 
     public:
     virtual ~Reader() = default;
-
-    /**
-     * @brief Construct a new Converter object
-     *
-     * @param r Reader to read the data from
-     */
     explicit Reader(const BinaryStream& r);
 
     /**
      * @brief Processes the loaded data
      *
-     * @return Result Raw information for an image
+     * @return Raw information for an image
      */
     virtual Image process() = 0;
+
+    /**
+     * Creates the appropriate Reader from the given binary
+     */
+    static std::unique_ptr<Reader> create(std::span<const uint8_t> buffer);
 
     /**
      * Reads the binary data from the given file
