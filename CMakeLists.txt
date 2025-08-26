@@ -13,8 +13,10 @@ set(SOURCES
         src/Helpers/BinaryStream.cpp
         src/Readers/Reader.cpp
         src/Readers/DDS/DDSReader.cpp
-        src/Readers/Factory.cpp
         lib/stb_image_write.h
+        src/Writers/Writer.cpp
+        include/Writers/Writer.h
+        include/Writers/PNGWriter.h
 )
 
 add_executable(dds2image ${SOURCES})

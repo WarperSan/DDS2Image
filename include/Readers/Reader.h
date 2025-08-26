@@ -41,14 +41,14 @@ class Reader {
     virtual Image process() = 0;
 
     /**
-     * Creates the appropriate Reader from the given binary
-     */
-    static std::unique_ptr<Reader> create(std::span<const uint8_t> buffer);
-
-    /**
      * Reads the binary data from the given file
      */
     static std::vector<uint8_t> fromFile(std::string_view file);
+
+    /**
+     * Creates the appropriate Reader from the given binary
+     */
+    static std::unique_ptr<Reader> create(std::span<const uint8_t> buffer);
 };
 
 
